@@ -7,18 +7,12 @@
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Portaria - Leitor QR</title>
-
-
-  <!--
-    Biblioteca de leitura de QR Code
-  -->
+  <title>Portaria - Controle de Acesso</title>
 
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-
 
   <style>
 
@@ -26,2416 +20,1296 @@
       box-sizing: border-box;
     }
 
-
-    html,
     body {
-
       margin: 0;
       padding: 0;
-
-      width: 100%;
-      min-height: 100%;
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-      background: #f2f2f2;
-
+      background: #f2f4f7;
+      font-family: Arial, Helvetica, sans-serif;
       color: #222;
-
     }
-
-
-    body {
-
-      padding: 15px;
-
-    }
-
 
     .container {
-
       width: 100%;
-
-      max-width: 600px;
-
-      margin: 0 auto;
-
+      max-width: 700px;
+      margin: auto;
+      padding: 15px;
     }
-
-
-    /* =========================
-       CABEÇALHO
-    ========================= */
 
     .header {
-
       background: #1f2937;
-
       color: white;
-
       padding: 18px;
-
       border-radius: 12px;
-
-      text-align: center;
-
       margin-bottom: 15px;
-
+      text-align: center;
     }
-
 
     .header h1 {
-
       margin: 0;
-
       font-size: 22px;
-
     }
-
 
     .header p {
-
-      margin: 7px 0 0;
-
-      font-size: 14px;
-
+      margin: 6px 0 0;
+      font-size: 13px;
       opacity: 0.85;
-
     }
-
-
-    /* =========================
-       CÂMERA
-    ========================= */
 
     .camera-box {
-
       background: white;
-
       border-radius: 12px;
-
-      padding: 12px;
-
-      box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.10);
-
+      padding: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
-
 
     #reader {
-
       width: 100%;
-
       overflow: hidden;
-
       border-radius: 10px;
-
     }
-
-
-    /* =========================
-       STATUS
-    ========================= */
 
     .status {
-
       margin-top: 12px;
-
-      padding: 14px;
-
-      border-radius: 10px;
-
+      padding: 12px;
+      border-radius: 8px;
       background: #e5e7eb;
-
       text-align: center;
-
+      font-size: 14px;
       font-weight: bold;
-
-      font-size: 15px;
-
     }
-
 
     .status.ok {
-
       background: #dcfce7;
-
       color: #166534;
-
     }
-
 
     .status.erro {
-
       background: #fee2e2;
-
       color: #991b1b;
-
     }
 
-
-    .status.aviso {
-
+    .status.processando {
       background: #fef3c7;
-
       color: #92400e;
-
     }
-
-
-    /* =========================
-       DEBUG
-    ========================= */
-
-    .debug {
-
-      margin-top: 10px;
-
-      padding: 10px;
-
-      border-radius: 8px;
-
-      background: #111827;
-
-      color: #d1d5db;
-
-      font-size: 11px;
-
-      word-break: break-word;
-
-      display: none;
-
-    }
-
-
-    /* =========================
-       RESULTADO
-    ========================= */
 
     .resultado {
-
-      margin-top: 15px;
-
-      background: white;
-
-      border-radius: 12px;
-
-      padding: 18px;
-
-      box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.10);
-
       display: none;
-
+      margin-top: 15px;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      text-align: center;
     }
-
 
     .resultado.show {
-
       display: block;
-
     }
-
-
-    .resultado h2 {
-
-      margin: 0 0 15px;
-
-      text-align: center;
-
-      font-size: 20px;
-
-    }
-
-
-    .resultado-linha {
-
-      padding: 9px 0;
-
-      border-bottom: 1px solid #eee;
-
-      font-size: 15px;
-
-    }
-
-
-    .resultado-linha:last-child {
-
-      border-bottom: none;
-
-    }
-
-
-    .resultado-linha strong {
-
-      display: inline-block;
-
-      min-width: 90px;
-
-    }
-
-
-    /* =========================
-       MOVIMENTO
-    ========================= */
 
     .movimento {
-
-      margin-top: 15px;
-
-      padding: 15px;
-
-      border-radius: 10px;
-
-      text-align: center;
-
-      font-size: 22px;
-
+      font-size: 28px;
       font-weight: bold;
-
+      margin-bottom: 12px;
     }
-
 
     .entrada {
-
-      background: #dcfce7;
-
-      color: #166534;
-
+      color: #15803d;
     }
-
 
     .saida {
-
-      background: #fee2e2;
-
-      color: #991b1b;
-
+      color: #dc2626;
     }
 
+    .nome {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
 
-    /* =========================
-       HISTÓRICO
-    ========================= */
+    .informacao {
+      font-size: 14px;
+      color: #555;
+      margin: 4px 0;
+    }
+
+    .horario {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #777;
+    }
 
     .historico {
-
       margin-top: 15px;
-
       background: white;
-
       border-radius: 12px;
-
       padding: 15px;
-
-      box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.10);
-
     }
-
 
     .historico h2 {
-
-      margin: 0 0 12px;
-
-      font-size: 18px;
-
+      font-size: 17px;
+      margin-top: 0;
     }
 
-
-    .historico-item {
-
-      padding: 10px;
-
+    .item {
+      padding: 10px 0;
       border-bottom: 1px solid #eee;
-
-      font-size: 14px;
-
     }
 
-
-    .historico-item:last-child {
-
+    .item:last-child {
       border-bottom: none;
-
     }
 
-
-    /* =========================
-       BOTÕES
-    ========================= */
-
-    .botao {
-
-      width: 100%;
-
-      border: none;
-
-      border-radius: 10px;
-
-      padding: 14px;
-
-      margin-top: 12px;
-
-      font-size: 16px;
-
-      font-weight: bold;
-
-      cursor: pointer;
-
-      background: #1f2937;
-
-      color: white;
-
+    .item strong {
+      display: block;
     }
 
-
-    .botao:active {
-
-      transform: scale(0.98);
-
+    .debug {
+      margin-top: 15px;
+      padding: 10px;
+      background: #111827;
+      color: #d1d5db;
+      border-radius: 8px;
+      font-size: 11px;
+      word-break: break-word;
+      white-space: pre-wrap;
     }
 
-
-    .botao-secundario {
-
-      background: #6b7280;
-
-    }
-
-
-    /* =========================
-       RESPONSIVO
-    ========================= */
-
-    @media (max-width: 480px) {
-
-      body {
-
-        padding: 8px;
-
-      }
-
-
-      .header h1 {
-
-        font-size: 19px;
-
-      }
-
-
-      .header p {
-
-        font-size: 13px;
-
-      }
-
-
-      .resultado-linha {
-
-        font-size: 14px;
-
-      }
-
+    .oculto {
+      display: none;
     }
 
   </style>
 
 </head>
 
-
 <body>
-
 
 <div class="container">
 
-
-  <!-- =========================
-       CABEÇALHO
-  ========================= -->
-
   <div class="header">
 
-    <h1>
-      📷 PORTARIA
-    </h1>
+    <h1>CONTROLE DE ACESSO</h1>
 
-    <p>
-      Leitor automático de crachá
-    </p>
+    <p>Leitor QR Code - Portaria da Obra</p>
 
   </div>
 
 
-  <!-- =========================
-       CÂMERA
-  ========================= -->
-
   <div class="camera-box">
-
 
     <div id="reader"></div>
 
-
     <div
       id="status"
-      class="status aviso"
+      class="status"
     >
       Iniciando câmera...
     </div>
 
-
-    <div
-      id="debug"
-      class="debug"
-    ></div>
-
-
-    <button
-      id="btnCamera"
-      class="botao"
-      onclick="iniciarCameraManual()"
-      style="display:none;"
-    >
-      📷 INICIAR CÂMERA
-    </button>
-
-
   </div>
 
-
-  <!-- =========================
-       RESULTADO
-  ========================= -->
 
   <div
     id="resultado"
     class="resultado"
   >
 
-
-    <h2>
-      ✅ REGISTRO REALIZADO
-    </h2>
-
-
-    <div class="resultado-linha">
-
-      <strong>
-        Nome:
-      </strong>
-
-      <span id="resNome">
-        -
-      </span>
-
-    </div>
-
-
-    <div class="resultado-linha">
-
-      <strong>
-        Crachá:
-      </strong>
-
-      <span id="resCracha">
-        -
-      </span>
-
-    </div>
-
-
-    <div class="resultado-linha">
-
-      <strong>
-        Função:
-      </strong>
-
-      <span id="resFuncao">
-        -
-      </span>
-
-    </div>
-
-
-    <div class="resultado-linha">
-
-      <strong>
-        Empresa:
-      </strong>
-
-      <span id="resEmpresa">
-        -
-      </span>
-
-    </div>
-
-
-    <div class="resultado-linha">
-
-      <strong>
-        Horário:
-      </strong>
-
-      <span id="resHorario">
-        -
-      </span>
-
-    </div>
-
+    <div
+      id="movimento"
+      class="movimento"
+    ></div>
 
     <div
-      id="resMovimento"
-      class="movimento"
-    >
-      -
-    </div>
+      id="nome"
+      class="nome"
+    ></div>
 
+    <div
+      id="funcao"
+      class="informacao"
+    ></div>
+
+    <div
+      id="cracha"
+      class="informacao"
+    ></div>
+
+    <div
+      id="empresa"
+      class="informacao"
+    ></div>
+
+    <div
+      id="horario"
+      class="horario"
+    ></div>
 
   </div>
 
-
-  <!-- =========================
-       HISTÓRICO
-  ========================= -->
 
   <div class="historico">
 
+    <h2>Últimos registros</h2>
 
-    <h2>
-      📋 Últimos registros
-    </h2>
-
-
-    <div id="historicoLista">
-
-      Nenhum registro ainda.
-
-    </div>
-
-
-    <button
-      class="botao botao-secundario"
-      onclick="limparHistorico()"
-    >
-      Limpar histórico
-    </button>
-
+    <div id="listaHistorico"></div>
 
   </div>
 
+
+  <div
+    id="debug"
+    class="debug"
+  >
+    Sistema iniciando...
+  </div>
 
 </div>
 
 
-
 <script>
 
+  /*
+   ============================================================
+   CONFIGURAÇÃO
+   ============================================================
+  */
 
-/************************************************************
- * CONFIGURAÇÃO
- ************************************************************/
-
-
-const API_URL =
-  'https://script.google.com/macros/s/AKfycbyZBhTKwNDK8-DEnZIdjFS2krTDGtU4IrOOC_QqDO1cUJuOc90BW5HlC3pQTZsfF_/exec';
-
-
-
-/************************************************************
- * VARIÁVEIS
- ************************************************************/
-
-
-let scanner = null;
-
-let cameraIniciada = false;
-
-let processando = false;
-
-let ultimoCodigo = '';
-
-let ultimoCodigoTempo = 0;
-
-
-/*
- * Tempo mínimo para permitir
- * nova leitura do mesmo crachá.
- */
-
-const TEMPO_ANTI_DUPLICACAO = 5000;
-
-
-
-/************************************************************
- * ELEMENTOS DA PÁGINA
- ************************************************************/
-
-
-const statusEl =
-  document.getElementById('status');
-
-
-const debugEl =
-  document.getElementById('debug');
-
-
-const resultadoEl =
-  document.getElementById('resultado');
-
-
-const historicoLista =
-  document.getElementById('historicoLista');
-
-
-const btnCamera =
-  document.getElementById('btnCamera');
-
-
-
-/************************************************************
- * ALTERAR STATUS
- ************************************************************/
-
-
-function status(texto, tipo = '') {
-
-  statusEl.textContent =
-    texto;
-
-  statusEl.className =
-    'status ' + tipo;
-
-}
-
-
-
-/************************************************************
- * DEBUG
- ************************************************************/
-
-
-function debug(texto) {
-
-  console.log(texto);
-
-  debugEl.style.display =
-    'block';
-
-  debugEl.textContent =
-    texto;
-
-}
-
-
-
-/************************************************************
- * INICIALIZAÇÃO
- ************************************************************/
-
-
-window.addEventListener(
-  'load',
-  function() {
-
-    setTimeout(
-      function() {
-
-        iniciarCamera();
-
-      },
-      500
-    );
-
-  }
-);
-
-
-
-/************************************************************
- * INICIAR CÂMERA
- ************************************************************/
-
-
-async function iniciarCamera() {
+  const API_URL =
+    "https://script.google.com/macros/s/AKfycbyZBhTKwNDK8-DEnZIdjFS2krTDGtU4IrOOC_QqDO1cUJuOc90BW5HlC3pQTZsfJsF_/exec";
 
 
   /*
-   * Evita iniciar duas câmeras
-   * ao mesmo tempo.
-   */
+   ============================================================
+   VARIÁVEIS
+   ============================================================
+  */
 
-  if (cameraIniciada) {
+  let scanner = null;
 
-    return;
+  let processando = false;
+
+  let ultimoCracha = "";
+
+  let ultimoTempo = 0;
+
+  const TEMPO_ANTI_DUPLICACAO = 5000;
+
+
+  /*
+   ============================================================
+   ELEMENTOS
+   ============================================================
+  */
+
+  const statusEl =
+    document.getElementById("status");
+
+  const resultadoEl =
+    document.getElementById("resultado");
+
+  const movimentoEl =
+    document.getElementById("movimento");
+
+  const nomeEl =
+    document.getElementById("nome");
+
+  const funcaoEl =
+    document.getElementById("funcao");
+
+  const crachaEl =
+    document.getElementById("cracha");
+
+  const empresaEl =
+    document.getElementById("empresa");
+
+  const horarioEl =
+    document.getElementById("horario");
+
+  const debugEl =
+    document.getElementById("debug");
+
+  const listaHistoricoEl =
+    document.getElementById("listaHistorico");
+
+
+  /*
+   ============================================================
+   STATUS
+   ============================================================
+  */
+
+  function definirStatus(
+    mensagem,
+    tipo = ""
+  ) {
+
+    statusEl.textContent = mensagem;
+
+    statusEl.className =
+      "status " + tipo;
 
   }
 
 
-  status(
-    'Solicitando acesso à câmera...',
-    'aviso'
-  );
+  /*
+   ============================================================
+   DEBUG
+   ============================================================
+  */
+
+  function debug(mensagem) {
+
+    const agora =
+      new Date().toLocaleTimeString("pt-BR");
+
+    debugEl.textContent =
+      "[" + agora + "] " + mensagem;
+
+  }
 
 
-  debug(
-    'Preparando câmera...'
-  );
+  /*
+   ============================================================
+   NORMALIZAÇÃO DO CRACHÁ
+   ============================================================
+  */
 
+  function normalizarCracha(valor) {
 
-  try {
-
-
-    /*
-     * Caso exista uma câmera
-     * anterior, encerra.
-     */
-
-    if (scanner) {
-
-
-      try {
-
-        await scanner.stop();
-
-      } catch (e) {}
-
-
-      try {
-
-        await scanner.clear();
-
-      } catch (e) {}
-
+    if (!valor) {
+      return "";
     }
 
+    let texto =
+      String(valor)
+        .trim()
+        .toUpperCase();
 
-
-    /*
-     * Cria o leitor.
-     */
-
-    scanner =
-      new Html5Qrcode(
-        'reader'
-      );
-
-
+    texto =
+      texto.replace(/\s+/g, " ");
 
     /*
-     * Configuração do QR Code.
-     */
+      CRA - 009
+      CRA-009
+      CRA 009
+    */
 
-    const config = {
-
-
-      /*
-       * Quantidade de tentativas
-       * de leitura por segundo.
-       */
-
-      fps: 10,
-
-
-      /*
-       * Área onde o QR será procurado.
-       */
-
-      qrbox:
-        function(
-          viewfinderWidth,
-          viewfinderHeight
-        ) {
-
-
-          const tamanho =
-            Math.min(
-              viewfinderWidth,
-              viewfinderHeight
-            ) * 0.70;
-
-
-          return {
-
-            width:
-              Math.floor(
-                tamanho
-              ),
-
-            height:
-              Math.floor(
-                tamanho
-              )
-
-          };
-
-        },
-
-
-      /*
-       * Formato aceito.
-       */
-
-      formatsToSupport: [
-
-        Html5QrcodeSupportedFormats.QR_CODE
-
-      ]
-
-    };
-
-
-
-    /*
-     * =====================================================
-     * CORREÇÃO PRINCIPAL
-     * =====================================================
-     *
-     * O html5-qrcode exige:
-     *
-     * facingMode: 'environment'
-     *
-     * ou:
-     *
-     * facingMode: {
-     *   exact: 'environment'
-     * }
-     *
-     * Portanto não usamos "ideal".
-     */
-
-    await scanner.start(
-
-      {
-        facingMode: 'environment'
-      },
-
-      config,
-
-
-      /*
-       * QR ENCONTRADO
-       */
-
-      function(decodedText) {
-
-        qrDetectado(
-          decodedText
-        );
-
-      },
-
-
-      /*
-       * Erros normais de leitura.
-       *
-       * Não mostramos na tela porque
-       * isso acontece continuamente
-       * enquanto a câmera procura um QR.
-       */
-
-      function(errorMessage) {
-
-      }
-
-    );
-
-
-
-    /*
-     * =====================================================
-     * CÂMERA FUNCIONANDO
-     * =====================================================
-     */
-
-    cameraIniciada =
-      true;
-
-
-    btnCamera.style.display =
-      'none';
-
-
-    status(
-      '🟢 CÂMERA ATIVA — APONTE PARA O QR CODE',
-      'ok'
-    );
-
-
-    debug(
-      'Câmera ativa. Aguardando QR Code...'
-    );
-
-
-  }
-
-
-  catch (erro) {
-
-
-    console.error(
-      'ERRO AO INICIAR CÂMERA:',
-      erro
-    );
-
-
-    cameraIniciada =
-      false;
-
-
-    btnCamera.style.display =
-      'block';
-
-
-    const mensagem =
-      obterMensagemErroCamera(
-        erro
+    const match =
+      texto.match(
+        /CRA\s*-\s*(\d+)/i
       );
 
-
-    status(
-      '❌ Não foi possível iniciar a câmera.',
-      'erro'
-    );
-
-
-    debug(
-      'ERRO: ' +
-      mensagem
-    );
-
-  }
-
-}
-
-
-
-/************************************************************
- * INICIAR CÂMERA MANUALMENTE
- ************************************************************/
-
-
-async function iniciarCameraManual() {
-
-
-  btnCamera.style.display =
-    'none';
-
-
-  await iniciarCamera();
-
-}
-
-
-
-/************************************************************
- * IDENTIFICAR ERRO DA CÂMERA
- ************************************************************/
-
-
-function obterMensagemErroCamera(
-  erro
-) {
-
-
-  if (!erro) {
-
-    return 'Erro desconhecido.';
-
-  }
-
-
-  const nome =
-    erro.name || '';
-
-
-  const mensagem =
-    erro.message ||
-    String(erro);
-
-
-
-  /*
-   * Permissão negada.
-   */
-
-  if (
-
-    nome ===
-      'NotAllowedError'
-
-    ||
-
-    mensagem
-      .toLowerCase()
-      .includes(
-        'permission'
-      )
-
-  ) {
-
-    return (
-
-      'Permissão da câmera foi negada. ' +
-
-      'Abra as permissões do navegador ' +
-
-      'e permita o acesso à câmera. ' +
-
-      'Detalhes: ' +
-
-      mensagem
-
-    );
-
-  }
-
-
-
-  /*
-   * Câmera não encontrada.
-   */
-
-  if (
-
-    nome ===
-      'NotFoundError'
-
-  ) {
-
-    return (
-
-      'Nenhuma câmera foi encontrada ' +
-
-      'neste dispositivo. ' +
-
-      'Detalhes: ' +
-
-      mensagem
-
-    );
-
-  }
-
-
-
-  /*
-   * Câmera ocupada.
-   */
-
-  if (
-
-    nome ===
-      'NotReadableError'
-
-  ) {
-
-    return (
-
-      'A câmera está sendo utilizada ' +
-
-      'por outro aplicativo ou aba. ' +
-
-      'Feche outros aplicativos que ' +
-
-      'estejam usando a câmera. ' +
-
-      'Detalhes: ' +
-
-      mensagem
-
-    );
-
-  }
-
-
-
-  /*
-   * Configuração incompatível.
-   */
-
-  if (
-
-    nome ===
-      'OverconstrainedError'
-
-  ) {
-
-    return (
-
-      'O navegador não conseguiu atender ' +
-
-      'às configurações da câmera. ' +
-
-      'Detalhes: ' +
-
-      mensagem
-
-    );
-
-  }
-
-
-
-  /*
-   * Bloqueio de segurança.
-   */
-
-  if (
-
-    nome ===
-      'SecurityError'
-
-  ) {
-
-    return (
-
-      'O navegador bloqueou o acesso ' +
-
-      'à câmera por segurança. ' +
-
-      'Verifique se o site está usando HTTPS. ' +
-
-      'Detalhes: ' +
-
-      mensagem
-
-    );
-
-  }
-
-
-
-  /*
-   * Erro genérico.
-   */
-
-  return (
-
-    nome +
-
-    ': ' +
-
-    mensagem
-
-  );
-
-}
-
-
-
-/************************************************************
- * QR CODE DETECTADO
- ************************************************************/
-
-
-function qrDetectado(
-  decodedText
-) {
-
-
-  if (!decodedText) {
-
-    return;
-
-  }
-
-
-  console.log(
-    'QR DETECTADO:',
-    decodedText
-  );
-
-
-  /*
-   * Mostra o conteúdo detectado.
-   */
-
-  debug(
-    'QR DETECTADO: ' +
-    decodedText
-  );
-
-
-  /*
-   * Extrai o crachá.
-   */
-
-  const cracha =
-    extrairCracha(
-      decodedText
-    );
-
-
-  /*
-   * QR inválido.
-   */
-
-  if (!cracha) {
-
-
-    status(
-      '⚠️ QR encontrado, mas o crachá não foi identificado.',
-      'aviso'
-    );
-
-
-    debug(
-      'QR DETECTADO, porém código inválido: ' +
-      decodedText
-    );
-
-
-    return;
-
-  }
-
-
-
-  /*
-   * Evita múltiplas leituras
-   * consecutivas do mesmo crachá.
-   */
-
-  const agora =
-    Date.now();
-
-
-  if (
-
-    cracha ===
-      ultimoCodigo
-
-    &&
-
-    (
-      agora -
-      ultimoCodigoTempo
-    )
-    <
-    TEMPO_ANTI_DUPLICACAO
-
-  ) {
-
-    return;
-
-  }
-
-
-  ultimoCodigo =
-    cracha;
-
-
-  ultimoCodigoTempo =
-    agora;
-
-
-
-  /*
-   * Evita duas chamadas
-   * simultâneas à API.
-   */
-
-  if (processando) {
-
-    return;
-
-  }
-
-
-  processando =
-    true;
-
-
-  registrarAcesso(
-    cracha
-  );
-
-}
-
-
-
-/************************************************************
- * EXTRAIR CRACHÁ DO QR
- ************************************************************/
-
-
-function extrairCracha(
-  texto
-) {
-
-
-  if (!texto) {
-
-    return null;
-
-  }
-
-
-  texto =
-    String(
-      texto
-    ).trim();
-
-
-
-  /*
-   * Caso o QR tenha apenas:
-   *
-   * CRA - 009
-   */
-
-  if (
-
-    /^CRA\s*-\s*\d+$/i
-      .test(texto)
-
-  ) {
-
-    return normalizarCracha(
-      texto
-    );
-
-  }
-
-
-
-  /*
-   * Caso tenha:
-   *
-   * CRA-009
-   */
-
-  if (
-
-    /^CRA-\d+$/i
-      .test(texto)
-
-  ) {
-
-    return normalizarCracha(
-      texto
-    );
-
-  }
-
-
-
-  /*
-   * Caso seja uma URL.
-   */
-
-  try {
-
-
-    const url =
-      new URL(
-        texto
-      );
-
-
-    const id =
-      url.searchParams.get(
-        'id'
-      );
-
-
-    if (id) {
-
-      return normalizarCracha(
-        id
+    if (match) {
+
+      return (
+        "CRA - " +
+        String(match[1]).padStart(3, "0")
       );
 
     }
 
+    return texto;
+
   }
 
-  catch (e) {
+
+  /*
+   ============================================================
+   EXTRAI CRACHÁ DO QR
+   ============================================================
+  */
+
+  function extrairCracha(texto) {
+
+    if (!texto) {
+      return "";
+    }
+
+    texto =
+      String(texto).trim();
+
 
     /*
-     * Não era URL.
-     */
+      Se for uma URL
+    */
 
-  }
-
-
-
-  /*
-   * Procura CRA dentro
-   * do texto.
-   */
-
-  const encontrado =
-    texto.match(
-      /CRA\s*-\s*\d+/i
-    );
-
-
-  if (encontrado) {
-
-    return normalizarCracha(
-      encontrado[0]
-    );
-
-  }
-
-
-  return null;
-
-}
-
-
-
-/************************************************************
- * NORMALIZAR CRACHÁ
- ************************************************************/
-
-
-function normalizarCracha(
-  valor
-) {
-
-
-  if (!valor) {
-
-    return null;
-
-  }
-
-
-  try {
-
-    valor =
-      decodeURIComponent(
-        String(
-          valor
-        )
-      );
-
-  }
-
-  catch (e) {
-
-    valor =
-      String(
-        valor
-      );
-
-  }
-
-
-  valor =
-    valor
-      .replace(
-        /\s+/g,
-        ' '
-      )
-      .trim();
-
-
-
-  /*
-   * Identifica:
-   *
-   * CRA - 009
-   *
-   * CRA-009
-   */
-
-  const match =
-    valor.match(
-      /^CRA\s*-\s*(\d+)$/i
-    );
-
-
-  if (!match) {
-
-    return valor;
-
-  }
-
-
-  const numero =
-    match[1];
-
-
-  /*
-   * Mantém exatamente
-   * o padrão usado na planilha:
-   *
-   * CRA - 009
-   */
-
-  return (
-    'CRA - ' +
-    numero
-  );
-
-}
-
-
-
-/************************************************************
- * REGISTRAR ACESSO
- ************************************************************/
-
-
-function registrarAcesso(
-  cracha
-) {
-
-
-  status(
-    '⏳ Registrando ' +
-    cracha +
-    '...',
-    'aviso'
-  );
-
-
-  /*
-   * Criamos um callback único
-   * para JSONP.
-   */
-
-  const callback =
-    'callback_' +
-    Date.now() +
-    '_' +
-    Math.floor(
-      Math.random() *
-      100000
-    );
-
-
-  let finalizado =
-    false;
-
-
-
-  /*
-   * Função que receberá
-   * a resposta do Apps Script.
-   */
-
-  window[callback] =
-    function(
-      resposta
-    ) {
-
-
-      if (finalizado) {
-
-        return;
-
-      }
-
-
-      finalizado =
-        true;
-
-
-
-      /*
-       * Remove callback.
-       */
-
-      try {
-
-        delete window[
-          callback
-        ];
-
-      }
-
-      catch (e) {}
-
-
-
-      processando =
-        false;
-
-
-
-      /*
-       * Verifica se houve erro.
-       */
+    try {
 
       if (
-
-        !resposta
-
-        ||
-
-        resposta.sucesso !==
-          true
-
+        texto.startsWith("http://") ||
+        texto.startsWith("https://")
       ) {
 
+        const url =
+          new URL(texto);
 
-        const erro =
+        const id =
+          url.searchParams.get("id");
 
-          resposta &&
-          resposta.erro
+        if (id) {
 
-            ? resposta.erro
+          return normalizarCracha(id);
 
-            : 'Erro desconhecido.';
-
-
-
-        status(
-          '❌ ' +
-          erro,
-          'erro'
-        );
-
-
-        debug(
-          'ERRO AO REGISTRAR: ' +
-          erro
-        );
-
-
-        return;
+        }
 
       }
 
-
-
-      /*
-       * Registro realizado.
-       */
-
-      mostrarResultado(
-        resposta
-      );
-
-
-      adicionarHistorico(
-        resposta
-      );
-
-
-
-      status(
-        '🟢 ' +
-        resposta.movimento +
-        ' registrada com sucesso.',
-        'ok'
-      );
-
+    } catch (erro) {
 
       debug(
-        'Registro concluído: ' +
-        resposta.cracha +
-        ' - ' +
-        resposta.movimento
+        "Erro ao interpretar URL: " +
+        erro.message
       );
 
+    }
 
 
-      /*
-       * Após 2,5 segundos,
-       * volta para o próximo QR.
-       */
+    /*
+      Se for o próprio crachá
+    */
 
-      setTimeout(
-        function() {
+    return normalizarCracha(texto);
 
-
-          resultadoEl
-            .classList
-            .remove(
-              'show'
-            );
+  }
 
 
-          status(
-            '🟢 CÂMERA ATIVA — APONTE PARA O PRÓXIMO QR CODE',
-            'ok'
+  /*
+   ============================================================
+   QR DETECTADO
+   ============================================================
+  */
+
+  function qrDetectado(decodedText) {
+
+    debug(
+      "QR DETECTADO: " +
+      decodedText
+    );
+
+
+    const cracha =
+      extrairCracha(decodedText);
+
+
+    if (!cracha) {
+
+      definirStatus(
+        "QR inválido",
+        "erro"
+      );
+
+      return;
+
+    }
+
+
+    debug(
+      "Crachá identificado: " +
+      cracha
+    );
+
+
+    const agora =
+      Date.now();
+
+
+    /*
+      Evita registrar o mesmo QR
+      várias vezes seguidas
+    */
+
+    if (
+      processando
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      cracha === ultimoCracha &&
+      agora - ultimoTempo <
+        TEMPO_ANTI_DUPLICACAO
+    ) {
+
+      return;
+
+    }
+
+
+    ultimoCracha =
+      cracha;
+
+    ultimoTempo =
+      agora;
+
+
+    registrarAcesso(cracha);
+
+  }
+
+
+  /*
+   ============================================================
+   REGISTRAR ACESSO
+   ============================================================
+  */
+
+  function registrarAcesso(cracha) {
+
+    processando = true;
+
+
+    definirStatus(
+      "Registrando " + cracha + "...",
+      "processando"
+    );
+
+
+    debug(
+      "Enviando para o sistema..."
+    );
+
+
+    chamarAPI(
+      cracha,
+      function(resposta) {
+
+        debug(
+          "Resposta recebida: " +
+          JSON.stringify(resposta)
+        );
+
+
+        if (
+          resposta &&
+          resposta.sucesso
+        ) {
+
+          mostrarResultado(
+            resposta
+          );
+
+          salvarHistorico(
+            resposta
+          );
+
+          definirStatus(
+            "✓ Acesso registrado com sucesso",
+            "ok"
+          );
+
+
+          /*
+            Som no celular/computador
+          */
+
+          emitirSom();
+
+
+          /*
+            Vibração no celular
+          */
+
+          vibrar();
+
+
+          /*
+            Depois de um pequeno intervalo,
+            volta para modo de leitura.
+          */
+
+          setTimeout(
+            function() {
+
+              processando =
+                false;
+
+              resultadoEl.classList.remove(
+                "show"
+              );
+
+              definirStatus(
+                "Aguardando próximo crachá..."
+              );
+
+              debug(
+                "Leitor pronto para o próximo QR."
+              );
+
+            },
+            1800
+          );
+
+
+        } else {
+
+          const erro =
+            resposta &&
+            resposta.erro
+              ? resposta.erro
+              : "Erro desconhecido.";
+
+          definirStatus(
+            "Erro: " + erro,
+            "erro"
           );
 
 
           debug(
-            'Aguardando próximo QR Code...'
+            "ERRO DO SISTEMA: " +
+            erro
           );
 
 
-        },
-        2500
-      );
-
-    };
-
-
-
-  /*
-   * Cria o script JSONP.
-   */
-
-  const script =
-    document.createElement(
-      'script'
-    );
-
-
-
-  /*
-   * Monta a URL da API.
-   */
-
-  const url =
-
-    API_URL +
-
-    '?acao=registrar' +
-
-    '&id=' +
-
-    encodeURIComponent(
-      cracha
-    ) +
-
-    '&callback=' +
-
-    encodeURIComponent(
-      callback
-    );
-
-
-
-  script.src =
-    url;
-
-
-  script.async =
-    true;
-
-
-
-  /*
-   * Timeout.
-   */
-
-  const timeout =
-    setTimeout(
-      function() {
-
-
-        if (finalizado) {
-
-          return;
+          processando =
+            false;
 
         }
 
+      },
+      function(erro) {
 
-        finalizado =
-          true;
+        definirStatus(
+          "Erro de comunicação com o sistema",
+          "erro"
+        );
+
+
+        debug(
+          "ERRO DE COMUNICAÇÃO: " +
+          erro
+        );
 
 
         processando =
           false;
 
-
-
-        try {
-
-          delete window[
-            callback
-          ];
-
-        }
-
-        catch (e) {}
-
-
-
-        status(
-          '❌ Tempo excedido ao comunicar com o sistema.',
-          'erro'
-        );
-
-
-        debug(
-          'TIMEOUT: o Apps Script não respondeu.'
-        );
-
-
-
-        try {
-
-          script.remove();
-
-        }
-
-        catch (e) {}
-
-
-      },
-      15000
+      }
     );
 
+  }
 
 
   /*
-   * Script carregado.
-   */
-
-  script.onload =
-    function() {
-
-      clearTimeout(
-        timeout
-      );
-
-    };
-
-
-
-  /*
-   * Erro de comunicação.
-   */
-
-  script.onerror =
-    function() {
-
-
-      clearTimeout(
-        timeout
-      );
-
-
-      if (finalizado) {
-
-        return;
-
-      }
-
-
-      finalizado =
-        true;
-
-
-      processando =
-        false;
-
-
-
-      try {
-
-        delete window[
-          callback
-        ];
-
-      }
-
-      catch (e) {}
-
-
-
-      status(
-        '❌ Erro de comunicação com o sistema.',
-        'erro'
-      );
-
-
-      debug(
-        'Falha ao acessar a API do Apps Script.'
-      );
-
-
-    };
-
-
-
-  /*
-   * Envia a requisição.
-   */
-
-  document.body.appendChild(
-    script
-  );
-
-}
-
-
-
-/************************************************************
- * MOSTRAR RESULTADO
- ************************************************************/
-
-
-function mostrarResultado(
-  resposta
-) {
-
-
-  document.getElementById(
-    'resNome'
-  ).textContent =
-    resposta.nome || '-';
-
-
-  document.getElementById(
-    'resCracha'
-  ).textContent =
-    resposta.cracha || '-';
-
-
-  document.getElementById(
-    'resFuncao'
-  ).textContent =
-    resposta.funcao || '-';
-
-
-  document.getElementById(
-    'resEmpresa'
-  ).textContent =
-    resposta.empresa || '-';
-
-
-  document.getElementById(
-    'resHorario'
-  ).textContent =
-    resposta.horario || '-';
-
-
-
-  const movimentoEl =
-    document.getElementById(
-      'resMovimento'
-    );
-
-
-  movimentoEl.textContent =
-    resposta.movimento || '-';
-
-
-  movimentoEl.className =
-    'movimento';
-
-
-
-  /*
-   * ENTRADA
-   */
-
-  if (
-
-    String(
-      resposta.movimento
-    )
-    .toUpperCase()
-
-    ===
-
-    'ENTRADA'
-
+   ============================================================
+   JSONP
+   ============================================================
+  */
+
+  function chamarAPI(
+    cracha,
+    sucesso,
+    erro
   ) {
 
-
-    movimentoEl.classList.add(
-      'entrada'
-    );
-
-
-    movimentoEl.textContent =
-      '🟢 ENTRADA';
-
-  }
-
-
-
-  /*
-   * SAÍDA
-   */
-
-  else {
-
-
-    movimentoEl.classList.add(
-      'saida'
-    );
-
-
-    movimentoEl.textContent =
-      '🔴 SAÍDA';
-
-  }
-
-
-
-  resultadoEl.classList.add(
-    'show'
-  );
-
-}
-
-
-
-/************************************************************
- * ADICIONAR AO HISTÓRICO
- ************************************************************/
-
-
-function adicionarHistorico(
-  resposta
-) {
-
-
-  const registro = {
-
-
-    nome:
-      resposta.nome || '-',
-
-
-    cracha:
-      resposta.cracha || '-',
-
-
-    movimento:
-      resposta.movimento || '-',
-
-
-    horario:
-      resposta.horario || '-',
-
-
-    timestamp:
-      Date.now()
-
-  };
-
-
-
-  let historico =
-    obterHistorico();
-
-
-
-  /*
-   * Coloca o mais recente
-   * primeiro.
-   */
-
-  historico.unshift(
-    registro
-  );
-
-
-
-  /*
-   * Mantém somente
-   * os últimos 20.
-   */
-
-  historico =
-    historico.slice(
-      0,
-      20
-    );
-
-
-
-  salvarHistorico(
-    historico
-  );
-
-
-  renderizarHistorico();
-
-}
-
-
-
-/************************************************************
- * OBTER HISTÓRICO
- ************************************************************/
-
-
-function obterHistorico() {
-
-
-  try {
-
-
-    const dados =
-      localStorage.getItem(
-        'historicoPortaria'
+    const callbackName =
+      "callback_" +
+      Date.now() +
+      "_" +
+      Math.floor(
+        Math.random() * 100000
       );
 
 
-    if (!dados) {
+    const script =
+      document.createElement("script");
 
-      return [];
 
-    }
+    let finalizado =
+      false;
 
+
+    const timeout =
+      setTimeout(
+        function() {
+
+          if (finalizado) {
+            return;
+          }
+
+          finalizado = true;
+
+
+          try {
+            delete window[callbackName];
+          } catch (e) {}
+
+
+          if (
+            script.parentNode
+          ) {
+
+            script.parentNode.removeChild(
+              script
+            );
+
+          }
+
+
+          erro(
+            "Tempo limite de comunicação com o Apps Script."
+          );
+
+        },
+        15000
+      );
+
+
+    window[callbackName] =
+      function(resposta) {
+
+        if (finalizado) {
+          return;
+        }
+
+        finalizado = true;
+
+
+        clearTimeout(
+          timeout
+        );
+
+
+        try {
+          delete window[callbackName];
+        } catch (e) {}
+
+
+        if (
+          script.parentNode
+        ) {
+
+          script.parentNode.removeChild(
+            script
+          );
+
+        }
+
+
+        sucesso(
+          resposta
+        );
+
+      };
+
+
+    const url =
+      API_URL +
+      "?acao=registrar" +
+      "&id=" +
+      encodeURIComponent(cracha) +
+      "&callback=" +
+      encodeURIComponent(callbackName) +
+      "&_=" +
+      Date.now();
+
+
+    debug(
+      "Chamando API..."
+    );
+
+
+    script.src =
+      url;
+
+
+    script.async =
+      true;
+
+
+    script.onerror =
+      function() {
+
+        if (finalizado) {
+          return;
+        }
+
+        finalizado = true;
+
+
+        clearTimeout(
+          timeout
+        );
+
+
+        try {
+          delete window[callbackName];
+        } catch (e) {}
+
+
+        if (
+          script.parentNode
+        ) {
+
+          script.parentNode.removeChild(
+            script
+          );
+
+        }
+
+
+        erro(
+          "O navegador bloqueou a comunicação com o Apps Script."
+        );
+
+      };
+
+
+    document.head.appendChild(
+      script
+    );
+
+  }
+
+
+  /*
+   ============================================================
+   MOSTRAR RESULTADO
+   ============================================================
+  */
+
+  function mostrarResultado(
+    resposta
+  ) {
+
+    resultadoEl.classList.add(
+      "show"
+    );
+
+
+    movimentoEl.textContent =
+      resposta.movimento === "ENTRADA"
+        ? "✓ ENTRADA"
+        : "✓ SAÍDA";
+
+
+    movimentoEl.className =
+      "movimento " +
+      (
+        resposta.movimento === "ENTRADA"
+          ? "entrada"
+          : "saida"
+      );
+
+
+    nomeEl.textContent =
+      resposta.nome || "";
+
+
+    funcaoEl.textContent =
+      resposta.funcao
+        ? "Função: " +
+          resposta.funcao
+        : "";
+
+
+    crachaEl.textContent =
+      resposta.cracha
+        ? "Crachá: " +
+          resposta.cracha
+        : "";
+
+
+    empresaEl.textContent =
+      resposta.empresa
+        ? "Empresa: " +
+          resposta.empresa
+        : "";
+
+
+    horarioEl.textContent =
+      resposta.horario
+        ? "Horário: " +
+          resposta.horario
+        : "";
+
+  }
+
+
+  /*
+   ============================================================
+   HISTÓRICO
+   ============================================================
+  */
+
+  function salvarHistorico(
+    resposta
+  ) {
+
+    let historico =
+      JSON.parse(
+        localStorage.getItem(
+          "historico_portaria"
+        ) || "[]"
+      );
+
+
+    historico.unshift({
+
+      nome:
+        resposta.nome || "",
+
+      cracha:
+        resposta.cracha || "",
+
+      movimento:
+        resposta.movimento || "",
+
+      horario:
+        resposta.horario || "",
+
+      empresa:
+        resposta.empresa || ""
+
+    });
+
+
+    historico =
+      historico.slice(
+        0,
+        10
+      );
+
+
+    localStorage.setItem(
+      "historico_portaria",
+      JSON.stringify(
+        historico
+      )
+    );
+
+
+    mostrarHistorico();
+
+  }
+
+
+  function mostrarHistorico() {
 
     const historico =
       JSON.parse(
-        dados
+        localStorage.getItem(
+          "historico_portaria"
+        ) || "[]"
       );
 
 
     if (
-
-      !Array.isArray(
-        historico
-      )
-
+      historico.length === 0
     ) {
 
-      return [];
+      listaHistoricoEl.innerHTML =
+        "<div class='informacao'>Nenhum registro ainda.</div>";
+
+      return;
 
     }
 
 
-    return historico;
-
-  }
-
-  catch (e) {
-
-    return [];
-
-  }
-
-}
-
-
-
-/************************************************************
- * SALVAR HISTÓRICO
- ************************************************************/
-
-
-function salvarHistorico(
-  historico
-) {
-
-
-  try {
-
-
-    localStorage.setItem(
-
-      'historicoPortaria',
-
-      JSON.stringify(
-        historico
-      )
-
-    );
-
-  }
-
-  catch (e) {
-
-
-    console.error(
-      'Erro ao salvar histórico:',
-      e
-    );
-
-  }
-
-}
-
-
-
-/************************************************************
- * RENDERIZAR HISTÓRICO
- ************************************************************/
-
-
-function renderizarHistorico() {
-
-
-  const historico =
-    obterHistorico();
-
-
-
-  if (
-    historico.length === 0
-  ) {
-
-
-    historicoLista.innerHTML =
-      'Nenhum registro ainda.';
-
-
-    return;
-
-  }
-
-
-
-  historicoLista.innerHTML =
-
-    historico
-      .map(
+    listaHistoricoEl.innerHTML =
+      historico.map(
         function(item) {
 
-
-          let classe =
-
-            String(
-              item.movimento
-            )
-            .toUpperCase()
-
-            ===
-
-            'ENTRADA'
-
-              ? 'entrada'
-
-              : 'saida';
-
+          const classe =
+            item.movimento === "ENTRADA"
+              ? "entrada"
+              : "saida";
 
 
           return `
-
-            <div class="historico-item">
+            <div class="item">
 
               <strong>
                 ${escapar(item.nome)}
               </strong>
 
-              <br>
-
-              Crachá:
-              ${escapar(item.cracha)}
-
-              <br>
+              <span>
+                ${escapar(item.cracha)}
+              </span>
 
               <span class="${classe}">
                 ${escapar(item.movimento)}
               </span>
 
-              —
-
-              ${escapar(item.horario)}
+              <span>
+                ${escapar(item.horario)}
+              </span>
 
             </div>
-
           `;
 
         }
-      )
-      .join('');
-
-}
-
-
-
-/************************************************************
- * LIMPAR HISTÓRICO
- ************************************************************/
-
-
-function limparHistorico() {
-
-
-  const confirmar =
-    confirm(
-      'Deseja realmente limpar o histórico deste dispositivo?'
-    );
-
-
-  if (!confirmar) {
-
-    return;
+      ).join("");
 
   }
 
 
-  localStorage.removeItem(
-    'historicoPortaria'
+  /*
+   ============================================================
+   ESCAPAR HTML
+   ============================================================
+  */
+
+  function escapar(valor) {
+
+    if (
+      valor === null ||
+      valor === undefined
+    ) {
+
+      return "";
+
+    }
+
+
+    return String(valor)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /*
+   ============================================================
+   SOM
+   ============================================================
+  */
+
+  function emitirSom() {
+
+    try {
+
+      const contexto =
+        new (
+          window.AudioContext ||
+          window.webkitAudioContext
+        )();
+
+
+      const oscilador =
+        contexto.createOscillator();
+
+
+      const ganho =
+        contexto.createGain();
+
+
+      oscilador.connect(
+        ganho
+      );
+
+      ganho.connect(
+        contexto.destination
+      );
+
+
+      oscilador.frequency.value =
+        1000;
+
+
+      ganho.gain.value =
+        0.15;
+
+
+      oscilador.start();
+
+
+      setTimeout(
+        function() {
+
+          oscilador.stop();
+
+          contexto.close();
+
+        },
+        150
+      );
+
+    } catch (e) {}
+
+  }
+
+
+  /*
+   ============================================================
+   VIBRAÇÃO
+   ============================================================
+  */
+
+  function vibrar() {
+
+    try {
+
+      if (
+        navigator.vibrate
+      ) {
+
+        navigator.vibrate(
+          [100, 50, 100]
+        );
+
+      }
+
+    } catch (e) {}
+
+  }
+
+
+  /*
+   ============================================================
+   INICIAR CÂMERA
+   ============================================================
+  */
+
+  async function iniciarCamera() {
+
+    definirStatus(
+      "Iniciando câmera..."
+    );
+
+
+    debug(
+      "Inicializando leitor QR..."
+    );
+
+
+    try {
+
+      scanner =
+        new Html5Qrcode(
+          "reader"
+        );
+
+
+      const config = {
+
+        fps: 10,
+
+        qrbox: function(
+          largura,
+          altura
+        ) {
+
+          const tamanho =
+            Math.min(
+              largura,
+              altura
+            ) * 0.70;
+
+          return {
+            width: tamanho,
+            height: tamanho
+          };
+
+        },
+
+        aspectRatio: 1.0,
+
+        formatsToSupport: [
+          Html5QrcodeSupportedFormats.QR_CODE
+        ],
+
+        rememberLastUsedCamera: true,
+
+        showTorchButtonIfSupported: true
+
+      };
+
+
+      /*
+        IMPORTANTE:
+        html5-qrcode 2.3.8 aceita
+        facingMode como string.
+      */
+
+      await scanner.start(
+
+        {
+          facingMode: "environment"
+        },
+
+        config,
+
+        function(decodedText) {
+
+          qrDetectado(
+            decodedText
+          );
+
+        },
+
+        function(errorMessage) {
+
+          /*
+            Erros de leitura são normais
+            enquanto procura o QR.
+
+            Não mostramos esses erros
+            na tela para não poluir.
+          */
+
+        }
+
+      );
+
+
+      definirStatus(
+        "Aguardando leitura do crachá..."
+      );
+
+
+      debug(
+        "Câmera iniciada com sucesso."
+      );
+
+
+    } catch (erro) {
+
+      definirStatus(
+        "Não foi possível iniciar a câmera.",
+        "erro"
+      );
+
+
+      debug(
+        "ERRO AO INICIAR CÂMERA: " +
+        (
+          erro &&
+          erro.message
+            ? erro.message
+            : erro
+        )
+      );
+
+    }
+
+  }
+
+
+  /*
+   ============================================================
+   INICIALIZAÇÃO
+   ============================================================
+  */
+
+  window.addEventListener(
+    "load",
+    function() {
+
+      mostrarHistorico();
+
+      iniciarCamera();
+
+    }
   );
 
-
-  renderizarHistorico();
-
-}
-
-
-
-/************************************************************
- * ESCAPAR HTML
- ************************************************************/
-
-
-function escapar(
-  valor
-) {
-
-
-  if (
-
-    valor === null
-
-    ||
-
-    valor === undefined
-
-  ) {
-
-    return '';
-
-  }
-
-
-  return String(
-    valor
-  )
-
-    .replace(
-      /&/g,
-      '&amp;'
-    )
-
-    .replace(
-      /</g,
-      '&lt;'
-    )
-
-    .replace(
-      />/g,
-      '&gt;'
-    )
-
-    .replace(
-      /"/g,
-      '&quot;'
-    )
-
-    .replace(
-      /'/g,
-      '&#039;'
-    );
-
-}
-
-
-
-/************************************************************
- * CARREGAR HISTÓRICO AO ABRIR
- ************************************************************/
-
-
-renderizarHistorico();
-
-
 </script>
-
 
 </body>
 
